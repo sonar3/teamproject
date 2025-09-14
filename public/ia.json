@@ -6,33 +6,137 @@
     "IaList": [
         {
             "id": 0,
-            "Level1": "가이드",
+            "Level1": "공지 및 소식",
             "screenId": "",
             "fileName": "",
-            "path": "/guide/",
-            "link": "basicGuide",
+            "path": "/notices",
+            "link": "",
             "Level2": [
                 {
-                    "name": "기본 정책",
+                    "name": "공지사항 목록",
                     "screenId": "",
-                    "path": "/guide/",
-                    "fileName": "default"
+                    "path": "/notices",
+                    "fileName": "list"
+                },
+                {
+                    "name": "공지사항 등록",
+                    "screenId": "",
+                    "path": "/notices/register",
+                    "fileName": "register"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "Level1": "인사정보",
+            "screenId": "",
+            "fileName": "",
+            "path": "/hr",
+            "link": "",
+            "Level2": [
+                {
+                    "name": "직원 목록",
+                    "screenId": "",
+                    "path": "/hr",
+                    "fileName": "list"
+                },
+                {
+                    "name": "직원 등록",
+                    "screenId": "",
+                    "path": "/hr/register",
+                    "fileName": "register"
                 }
             ]
         },   
         {
-            "id": 1,
-            "Level1": "최봄",
+            "id": 2,
+            "Level1": "휴가관리",
             "screenId": "",
-            "path": "/bchoi",
             "fileName": "",
-            "link": "#",
+            "path": "/vacation",
+            "link": "",
             "Level2": [
                 {
-                    "name": "",
+                    "name": "휴가 캘린더",
                     "screenId": "",
-                    "path": "/bchoi/",
-                    "fileName": "#"
+                    "path": "/vacation",
+                    "fileName": "calendar"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "Level1": "협업툴관리",
+            "screenId": "",
+            "fileName": "",
+            "path": "/collaboration",
+            "link": "",
+            "Level2": [
+                {
+                    "name": "협업툴 목록",
+                    "screenId": "",
+                    "path": "/collaboration",
+                    "fileName": "list"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "Level1": "장비관리",
+            "screenId": "",
+            "fileName": "",
+            "path": "/equipment",
+            "link": "",
+            "Level2": [
+                {
+                    "name": "장비 목록",
+                    "screenId": "",
+                    "path": "/equipment",
+                    "fileName": "list"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "Level1": "보고서",
+            "screenId": "",
+            "fileName": "",
+            "path": "/reports",
+            "link": "",
+            "Level2": [
+                {
+                    "name": "보고서 목록",
+                    "screenId": "",
+                    "path": "/reports",
+                    "fileName": "list"
+                },
+                {
+                    "name": "보고서 작성",
+                    "screenId": "",
+                    "path": "/reports/create",
+                    "fileName": "create"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "Level1": "블로그",
+            "screenId": "",
+            "fileName": "",
+            "path": "/blog",
+            "link": "",
+            "Level2": [
+                {
+                    "name": "블로그 목록",
+                    "screenId": "",
+                    "path": "/blog",
+                    "fileName": "list"
+                },
+                {
+                    "name": "블로그 작성",
+                    "screenId": "",
+                    "path": "/blog/create",
+                    "fileName": "create"
                 }
             ]
         }        
