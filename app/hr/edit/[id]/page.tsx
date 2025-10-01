@@ -12,6 +12,7 @@ function EditContent() {
 
     const [formData, setFormData] = useState<EmployeeFormData>({
         name: '',
+        email: '',
         gender: '남',
         position: '',
         project: '',
@@ -35,6 +36,7 @@ function EditContent() {
                     const employee = data.data as Employee;
                     setFormData({
                         name: employee.name,
+                        email: employee.email,
                         gender: employee.gender,
                         position: employee.position,
                         project: employee.project,

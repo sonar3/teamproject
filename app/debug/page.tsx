@@ -24,7 +24,7 @@ export default function DebugPage() {
             console.log('Test login result:', data);
         } catch (error) {
             console.error('Test login error:', error);
-            setResult({ error: error.message });
+            setResult({ error: error instanceof Error ? error.message : 'Unknown error' });
         }
     };
 
