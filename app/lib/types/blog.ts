@@ -25,6 +25,7 @@ export interface BlogFormData {
     content: string;
     excerpt: string;
     source: BlogSource;
+    fileName?: string;
     tags: string[];
     isPublished: boolean;
 }
