@@ -53,7 +53,7 @@ const Navbar = () => {
         <nav className="navi">
             <button></button>
             <ul>
-            {getFilteredMenus(user?.grade, iaData).map((item) => (
+            {getFilteredMenus(user?.grade, iaData).map((item: IaItem) => (
                 <li key={item.id}>
                     <Link href={`${item.path}${item.link}`}>
                         {item.Level1}
