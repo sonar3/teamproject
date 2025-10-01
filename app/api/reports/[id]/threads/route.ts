@@ -39,10 +39,10 @@ let reports: any[] = [
 // POST: 스레드 추가
 export async function POST(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const body: ThreadFormData & { authorId: string; authorName: string; authorGrade: string } = await request.json();
         const { content, authorId, authorName, authorGrade } = body;
 

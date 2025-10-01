@@ -70,10 +70,10 @@ let equipments: Equipment[] = [
 // PUT: 장비 수정
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body: EquipmentFormData = await request.json();
 
     // 입력 데이터 검증
@@ -151,10 +151,10 @@ export async function PUT(
 // DELETE: 장비 삭제
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // 해당 ID의 장비 찾기
     const equipmentIndex = equipments.findIndex(equipment => equipment.id === id);

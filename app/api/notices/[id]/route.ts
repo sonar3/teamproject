@@ -5,10 +5,10 @@ import { findNoticeById, updateNotice, deleteNotice, incrementViewCount } from "
 // GET: 공지사항 상세 조회
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
 
         const notice = findNoticeById(id);
         if (!notice) {
@@ -41,10 +41,10 @@ export async function GET(
 // PUT: 공지사항 수정
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const body = await request.json();
         const { title, content, category, isImportant } = body;
 
@@ -105,10 +105,10 @@ export async function PUT(
 // DELETE: 공지사항 삭제
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
 
         const deleted = deleteNotice(id);
         if (!deleted) {

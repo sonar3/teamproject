@@ -57,10 +57,10 @@ let blogPosts: BlogPost[] = [
 // GET: 특정 블로그 포스트 조회
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const post = blogPosts.find(p => p.id === id);
 
         if (!post) {
@@ -105,10 +105,10 @@ export async function GET(
 // PUT: 블로그 포스트 수정
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const body: BlogFormData = await request.json();
         const { title, content, excerpt, tags, isPublished } = body;
 
@@ -173,10 +173,10 @@ export async function PUT(
 // DELETE: 블로그 포스트 삭제
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const postIndex = blogPosts.findIndex(p => p.id === id);
 
         if (postIndex === -1) {

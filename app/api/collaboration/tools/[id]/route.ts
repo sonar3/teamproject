@@ -33,10 +33,10 @@ let collaborationTools: CollaborationTool[] = [
 // PUT: 협업툴 수정
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body: CollaborationFormData = await request.json();
 
     // 입력 데이터 검증
@@ -90,10 +90,10 @@ export async function PUT(
 // DELETE: 협업툴 삭제
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // 해당 ID의 협업툴 찾기
     const toolIndex = collaborationTools.findIndex(tool => tool.id === id);

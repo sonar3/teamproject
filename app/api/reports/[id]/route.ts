@@ -51,10 +51,10 @@ let reports: Report[] = [
 // GET: 특정 보고서 조회
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const report = reports.find(r => r.id === id);
 
         if (!report) {
@@ -84,10 +84,10 @@ export async function GET(
 // PUT: 보고서 수정
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const body: ReportFormData = await request.json();
         const { title, content } = body;
 
@@ -146,10 +146,10 @@ export async function PUT(
 // DELETE: 보고서 삭제
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const reportIndex = reports.findIndex(r => r.id === id);
 
         if (reportIndex === -1) {

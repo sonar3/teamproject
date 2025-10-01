@@ -44,10 +44,10 @@ let vacations: Vacation[] = [
 // PUT: 휴가 수정
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body: VacationFormData = await request.json();
 
     // 입력 데이터 검증
@@ -134,10 +134,10 @@ export async function PUT(
 // DELETE: 휴가 삭제
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // 해당 ID의 휴가 찾기
     const vacationIndex = vacations.findIndex(vacation => vacation.id === id);

@@ -48,10 +48,10 @@ let employees: Employee[] = [
 // GET: 특정 직원 정보 조회
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const employee = employees.find(emp => emp.id === id);
 
         if (!employee) {
@@ -81,10 +81,10 @@ export async function GET(
 // PUT: 직원 정보 수정
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const body: EmployeeFormData = await request.json();
         const { name, gender, position, project, startDate, endDate, grade } = body;
 
@@ -148,10 +148,10 @@ export async function PUT(
 // DELETE: 직원 정보 삭제
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const employeeIndex = employees.findIndex(emp => emp.id === id);
 
         if (employeeIndex === -1) {
