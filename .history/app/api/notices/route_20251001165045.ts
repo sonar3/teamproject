@@ -87,8 +87,8 @@ export async function GET(request: NextRequest) {
 // POST: 공지사항 등록
 export async function POST(request: NextRequest) {
     try {
-        const body: NoticeFormData & { authorId: string; authorName?: string } = await request.json();
-        const { title, content, category, isImportant, authorId, authorName } = body;
+        const body: NoticeFormData & { authorId: string } = await request.json();
+        const { title, content, category, isImportant, authorId } = body;
 
         // 입력 검증
         if (!title || !content || !category || !authorId) {
@@ -112,49 +112,26 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Supabase에 새 공지사항 삽입
-        const { data, error } = await supabase
-            .from('notices')
-            .insert([
-                {
-                    title: title.trim(),
-                    content: content.trim(),
-                    author_id: authorId,
-                    author_name: authorName || "관리자",
-                    category: category,
-                    is_important: isImportant || false,
-                    view_count: 0
-                }
-            ])
-            .select()
-            .single();
-
-        if (error) {
-            console.error('Supabase insert error:', error);
-            return NextResponse.json(
-                { success: false, message: "데이터베이스 등록 중 오류가 발생했습니다." },
-                { status: 500 }
-            );
-        }
-
-        // 응답 데이터 형식 변환
-        const formattedNotice = {
-            id: data.id,
-            title: data.title,
-            content: data.content,
-            author: data.author_name,
-            authorId: data.author_id,
-            category: data.category,
-            isImportant: data.is_important,
-            viewCount: data.view_count,
-            createdAt: data.created_at,
-            updatedAt: data.updated_at
+        // 새 공지사항 생성
+        const newNotice = {
+            id: (notices.length + 1).toString(),
+            title: title.trim(),
+            content: content.trim(),
+            author: "관리자", // 실제로는 authorId로 조회
+            authorId,
+            category,
+            isImportant: isImportant || false,
+            viewCount: 0,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
         };
+
+        addNotice(newNotice);
 
         const response: NoticeResponse = {
             success: true,
             message: "공지사항이 성공적으로 등록되었습니다.",
-            data: formattedNotice
+            data: newNotice
         };
 
         return NextResponse.json(response, { status: 201 });

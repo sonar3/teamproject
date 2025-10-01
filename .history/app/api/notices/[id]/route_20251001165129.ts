@@ -153,24 +153,20 @@ export async function DELETE(
     try {
         const { id } = await params;
 
-        // Supabase에서 공지사항 삭제
-        const { error } = await supabase
-            .from('notices')
-            .delete()
-            .eq('id', id);
-
-        if (error) {
-            console.error('Supabase delete error:', error);
+        const deleted = deleteNotice(id);
+        if (!deleted) {
             return NextResponse.json(
-                { success: false, message: "공지사항 삭제 중 오류가 발생했습니다." },
-                { status: 500 }
+                { success: false, message: "공지사항을 찾을 수 없습니다." },
+                { status: 404 }
             );
         }
 
-        return NextResponse.json({
+        const response: NoticeResponse = {
             success: true,
             message: "공지사항이 성공적으로 삭제되었습니다."
-        });
+        };
+
+        return NextResponse.json(response);
 
     } catch (error) {
         console.error('Delete notice error:', error);

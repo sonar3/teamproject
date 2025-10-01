@@ -99,13 +99,8 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Supabase에서 중복 이메일 체크
-        const { data: existingEmployee } = await supabase
-            .from('employees')
-            .select('email')
-            .eq('email', email)
-            .single();
-
+        // 중복 이메일 체크
+        const existingEmployee = employees.find(emp => emp.email === email);
         if (existingEmployee) {
             return NextResponse.json(
                 { success: false, message: "이미 등록된 이메일입니다." },
@@ -113,56 +108,29 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Supabase에 새 직원 생성 (비밀번호는 0000으로 설정, 첫 로그인 여부는 true)
-        const { data, error } = await supabase
-            .from('employees')
-            .insert([
-                {
-                    name,
-                    email,
-                    password: "0000", // 초기 비밀번호는 항상 0000
-                    gender,
-                    position,
-                    project,
-                    start_date: startDate,
-                    end_date: endDate || null,
-                    grade,
-                    is_first_login: true,
-                    favorite_foods: [],
-                    interests: []
-                }
-            ])
-            .select()
-            .single();
-
-        if (error) {
-            console.error('Supabase insert error:', error);
-            return NextResponse.json(
-                { success: false, message: "데이터베이스 등록 중 오류가 발생했습니다." },
-                { status: 500 }
-            );
-        }
-
-        // 응답 데이터 형식 변환
-        const formattedEmployee = {
-            id: data.id,
-            name: data.name,
-            email: data.email,
-            gender: data.gender,
-            position: data.position,
-            project: data.project,
-            startDate: data.start_date,
-            endDate: data.end_date,
-            grade: data.grade,
-            isFirstLogin: data.is_first_login,
-            createdAt: data.created_at,
-            updatedAt: data.updated_at
+        // 새 직원 생성 (비밀번호는 0000으로 설정, 첫 로그인 여부는 true)
+        const newEmployee = {
+            id: (employees.length + 1).toString(),
+            name,
+            email,
+            password: "0000", // 초기 비밀번호는 항상 0000
+            gender,
+            position,
+            project,
+            startDate,
+            endDate: endDate || undefined,
+            grade,
+            isFirstLogin: true,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
         };
+
+        addEmployee(newEmployee);
 
         const response: EmployeeResponse = {
             success: true,
             message: "인사정보가 성공적으로 등록되었습니다. 초기 비밀번호는 0000입니다.",
-            data: formattedEmployee
+            data: newEmployee
         };
 
         return NextResponse.json(response, { status: 201 });

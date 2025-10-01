@@ -93,45 +93,25 @@ export async function PUT(
             );
         }
 
-        // Supabase에서 공지사항 업데이트
-        const { data, error } = await supabase
-            .from('notices')
-            .update({
-                title: title.trim(),
-                content: content.trim(),
-                category: category,
-                is_important: isImportant || false,
-                updated_at: new Date().toISOString()
-            })
-            .eq('id', id)
-            .select()
-            .single();
+        // 공지사항 업데이트
+        const updatedNotice = updateNotice(id, {
+            title: title.trim(),
+            content: content.trim(),
+            category,
+            isImportant: isImportant || false
+        });
 
-        if (error || !data) {
+        if (!updatedNotice) {
             return NextResponse.json(
                 { success: false, message: "공지사항을 찾을 수 없습니다." },
                 { status: 404 }
             );
         }
 
-        // 데이터 형식 변환
-        const formattedNotice = {
-            id: data.id,
-            title: data.title,
-            content: data.content,
-            author: data.author_name,
-            authorId: data.author_id,
-            category: data.category,
-            isImportant: data.is_important,
-            viewCount: data.view_count,
-            createdAt: data.created_at,
-            updatedAt: data.updated_at
-        };
-
         const response: NoticeResponse = {
             success: true,
             message: "공지사항이 성공적으로 수정되었습니다.",
-            data: formattedNotice
+            data: updatedNotice
         };
 
         return NextResponse.json(response);
@@ -153,24 +133,20 @@ export async function DELETE(
     try {
         const { id } = await params;
 
-        // Supabase에서 공지사항 삭제
-        const { error } = await supabase
-            .from('notices')
-            .delete()
-            .eq('id', id);
-
-        if (error) {
-            console.error('Supabase delete error:', error);
+        const deleted = deleteNotice(id);
+        if (!deleted) {
             return NextResponse.json(
-                { success: false, message: "공지사항 삭제 중 오류가 발생했습니다." },
-                { status: 500 }
+                { success: false, message: "공지사항을 찾을 수 없습니다." },
+                { status: 404 }
             );
         }
 
-        return NextResponse.json({
+        const response: NoticeResponse = {
             success: true,
             message: "공지사항이 성공적으로 삭제되었습니다."
-        });
+        };
+
+        return NextResponse.json(response);
 
     } catch (error) {
         console.error('Delete notice error:', error);
